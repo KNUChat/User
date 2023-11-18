@@ -1,4 +1,4 @@
-package KNUChat.User.domain;
+package KNUChat.User.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,5 +21,4 @@ public class User {
 
     @Column(name = "email")
     private String email;
-
 }

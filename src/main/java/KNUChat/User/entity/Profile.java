@@ -1,4 +1,4 @@
-package KNUChat.User.domain;
+package KNUChat.User.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
