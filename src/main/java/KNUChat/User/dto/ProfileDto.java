@@ -1,8 +1,8 @@
 package KNUChat.User.dto;
 
-import KNUChat.User.domain.AcademicStatus;
+import KNUChat.User.entity.AcademicStatus;
 
-import KNUChat.User.domain.Profile;
+import KNUChat.User.entity.Profile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

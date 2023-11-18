@@ -1,7 +1,7 @@
 package KNUChat.User.dto;
 
-import KNUChat.User.domain.Gender;
-import KNUChat.User.domain.User;
+import KNUChat.User.entity.Gender;
+import KNUChat.User.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

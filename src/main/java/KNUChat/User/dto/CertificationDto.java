@@ -1,6 +1,6 @@
 package KNUChat.User.dto;
 
-import KNUChat.User.domain.Certification;
+import KNUChat.User.entity.Certification;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

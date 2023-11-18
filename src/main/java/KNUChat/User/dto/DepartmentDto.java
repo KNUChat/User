@@ -1,7 +1,6 @@
 package KNUChat.User.dto;
 
-import KNUChat.User.domain.DepCategory;
-import KNUChat.User.domain.Department;
+import KNUChat.User.entity.Department;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

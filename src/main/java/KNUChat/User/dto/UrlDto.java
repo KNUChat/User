@@ -1,6 +1,6 @@
 package KNUChat.User.dto;
 
-import KNUChat.User.domain.Url;
+import KNUChat.User.entity.Url;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
