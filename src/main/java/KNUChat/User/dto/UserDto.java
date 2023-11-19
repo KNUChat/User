@@ -11,12 +11,14 @@ public class UserDto {
     private final String id;
     private final String name;
     private final Gender gender;
+    private final String email;
 
     public static UserDto from(User user) {
         return new UserDto(
                 user.getId(),
                 user.getName(),
-                user.getGender()
+                user.getGender(),
+                user.getEmail()
         );
     }
 }
