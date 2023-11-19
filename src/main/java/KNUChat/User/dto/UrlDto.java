@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UrlDto {
 
-    private final String url;
+    private final String link;
 
     public static UrlDto from(Url url) {
         return new UrlDto(url.getLink());
