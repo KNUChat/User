@@ -9,16 +9,16 @@ import lombok.Getter;
 public class User {
 
     @Id
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 }

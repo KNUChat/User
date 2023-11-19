@@ -11,7 +11,7 @@ import java.util.Date;
 public class Profile {
 
     @Id
-    @Column(name = "profile_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "std_num", nullable = false)
@@ -25,9 +25,11 @@ public class Profile {
     private short grade;
 
     @Column(name = "admission_date")
+    @Temporal(TemporalType.DATE)
     private Date admissionDate;
 
     @Column(name = "graduate_date")
+    @Temporal(TemporalType.DATE)
     private Date graduateDate;
 
     @Column(name = "introduction")

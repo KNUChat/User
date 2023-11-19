@@ -9,7 +9,7 @@ import lombok.Getter;
 public class Url {
 
     @Id
-    @Column(name = "url_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "link")

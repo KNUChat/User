@@ -11,7 +11,7 @@ import java.util.Date;
 public class Certification {
 
     @Id
-    @Column(name = "certification_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "name")
@@ -21,9 +21,11 @@ public class Certification {
     private String achievement;
 
     @Column(name = "obtain_date")
+    @Temporal(TemporalType.DATE)
     private Date obtainDate;
 
     @Column(name = "expire_date")
+    @Temporal(TemporalType.DATE)
     private Date expireDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

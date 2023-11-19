@@ -9,7 +9,7 @@ import lombok.Getter;
 public class Department {
 
     @Id
-    @Column(name = "dep_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "college")
