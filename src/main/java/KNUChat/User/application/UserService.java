@@ -41,7 +41,7 @@ public class UserService {
     public User buildUserFrom(UserDto userDto) {
         User user = User.builder()
                 .name(userDto.getName())
-                .gender(userDto.getGender())
+                .gender(Gender.valueOf(userDto.getGender()))
                 .email(userDto.getEmail())
                 .build();
 
