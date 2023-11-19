@@ -20,4 +20,11 @@ public class UserController {
         UserProfileResponse response = userService.findUserProfileById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @PostMapping("/users")
+    public ResponseEntity<Void> createUserProfile(@RequestBody UserProfileRequest request) {
+        userService.createUserProfile(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }
