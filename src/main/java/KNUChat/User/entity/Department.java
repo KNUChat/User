@@ -1,11 +1,15 @@
 package KNUChat.User.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "department")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Department {
 
     @Id
@@ -28,4 +32,13 @@ public class Department {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private Profile profile;
+
+    @Builder
+    public Department(String college, String department, String major, DepCategory depCategory, Profile profile) {
+        this.college = college;
+        this.department = department;
+        this.major = major;
+        this.depCategory = depCategory;
+        this.profile = profile;
+    }
 }

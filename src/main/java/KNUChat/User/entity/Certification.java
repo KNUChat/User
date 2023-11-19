@@ -1,13 +1,17 @@
 package KNUChat.User.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Getter
 @Entity
 @Table(name = "certification")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Certification {
 
     @Id
@@ -31,4 +35,13 @@ public class Certification {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private Profile profile;
+
+    @Builder
+    public Certification(String name, String achievement, Date obtainDate, Date expireDate, Profile profile) {
+        this.name = name;
+        this.achievement = achievement;
+        this.obtainDate = obtainDate;
+        this.expireDate = expireDate;
+        this.profile = profile;
+    }
 }
