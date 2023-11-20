@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UrlRepository extends JpaRepository<Url, String> {
-    List<Url> findAllByProfileId(String profileId);
+public interface UrlRepository extends JpaRepository<Url, Long> {
+    List<Url> findAllByProfileId(Long profileId);
 }

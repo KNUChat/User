@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CertificationRepository extends JpaRepository<Certification, String> {
+public interface CertificationRepository extends JpaRepository<Certification, Long> {
 
-    List<Certification> findAllByProfileId(String profileId);
+    List<Certification> findAllByProfileId(Long profileId);
 }

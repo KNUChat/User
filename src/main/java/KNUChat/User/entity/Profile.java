@@ -16,7 +16,7 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "std_num", nullable = false)
     private short stdNum;

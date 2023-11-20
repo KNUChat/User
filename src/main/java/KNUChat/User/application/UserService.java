@@ -97,8 +97,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserProfileResponse findUserProfileById(String userId) {
-        Profile profile = profileRepository.getReferenceById(userId);
+    public UserProfileResponse findUserProfileById(Long userId) {
+        Profile profile = profileRepository.getProfileByUserId(userId);
 
         return new UserProfileResponse(
                 UserDto.from(userRepository.getReferenceById(userId)),
@@ -109,7 +109,7 @@ public class UserService {
         );
     }
 
-    public List<DepartmentDto> getDepartmentDtos(String profileId) {
+    public List<DepartmentDto> getDepartmentDtos(Long profileId) {
         List<DepartmentDto> departmentDtos = departmentRepository
                 .findAllByProfileId(profileId)
                 .stream()
@@ -119,7 +119,7 @@ public class UserService {
         return departmentDtos;
     }
 
-    public List<CertificationDto> getCertificationDtos(String profileId) {
+    public List<CertificationDto> getCertificationDtos(Long profileId) {
         List<CertificationDto> certificationDtos = certificationRepository
                 .findAllByProfileId(profileId)
                 .stream()
@@ -129,7 +129,7 @@ public class UserService {
         return certificationDtos;
     }
 
-    public List<UrlDto> getUrlDtos(String profileId) {
+    public List<UrlDto> getUrlDtos(Long profileId) {
         List<UrlDto> urlDtos = urlRepository
                 .findAllByProfileId(profileId)
                 .stream()
