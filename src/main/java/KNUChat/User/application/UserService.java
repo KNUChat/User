@@ -39,9 +39,15 @@ public class UserService {
     }
 
     public User buildUserFrom(UserDto userDto) {
+        Gender gender;
+        if (userDto.getGender() == null)
+            gender = null;
+        else
+            gender = Gender.valueOf(userDto.getGender());
+
         User user = User.builder()
                 .name(userDto.getName())
-                .gender(Gender.valueOf(userDto.getGender()))
+                .gender(gender)
                 .email(userDto.getEmail())
                 .build();
 
@@ -67,12 +73,22 @@ public class UserService {
                         .college(departmentDto.getCollege())
                         .department(departmentDto.getDepartment())
                         .major(departmentDto.getMajor())
-                        .depCategory(DepCategory.valueOf(departmentDto.getDepCategory()))
+                        .depCategory(getDepCategory(departmentDto))
                         .profile(profile)
                         .build())
                 .collect(Collectors.toList());
 
         return departments;
+    }
+
+    public DepCategory getDepCategory(DepartmentDto departmentDto) {
+        DepCategory depCategoty;
+        if (departmentDto.getDepCategory() == null)
+            depCategoty = null;
+        else
+            depCategoty = DepCategory.valueOf(departmentDto.getDepCategory());
+
+        return depCategoty;
     }
 
     public List<Certification> buildCertificationFrom(List<CertificationDto> certificationDtos, Profile profile) {
