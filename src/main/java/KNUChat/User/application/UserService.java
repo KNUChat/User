@@ -26,6 +26,14 @@ public class UserService {
     @Autowired
     private final UrlRepository urlRepository;
 
+    public boolean createUser(UserRequest request) {
+        userRepository.save(User.builder()
+                .email(request.getEmail())
+                .build());
+
+        return true;
+    }
+
     @Transactional
     public boolean createUserProfile(UserProfileRequest request) {
         userRepository.save(buildUserFrom(request.getUserDto()));
@@ -39,15 +47,9 @@ public class UserService {
     }
 
     public User buildUserFrom(UserDto userDto) {
-        Gender gender;
-        if (userDto.getGender() == null)
-            gender = null;
-        else
-            gender = Gender.valueOf(userDto.getGender());
-
         User user = User.builder()
                 .name(userDto.getName())
-                .gender(gender)
+                .gender(Gender.valueOf(userDto.getGender()))
                 .email(userDto.getEmail())
                 .build();
 
@@ -73,22 +75,12 @@ public class UserService {
                         .college(departmentDto.getCollege())
                         .department(departmentDto.getDepartment())
                         .major(departmentDto.getMajor())
-                        .depCategory(getDepCategory(departmentDto))
+                        .depCategory(DepCategory.valueOf(departmentDto.getDepCategory()))
                         .profile(profile)
                         .build())
                 .collect(Collectors.toList());
 
         return departments;
-    }
-
-    public DepCategory getDepCategory(DepartmentDto departmentDto) {
-        DepCategory depCategoty;
-        if (departmentDto.getDepCategory() == null)
-            depCategoty = null;
-        else
-            depCategoty = DepCategory.valueOf(departmentDto.getDepCategory());
-
-        return depCategoty;
     }
 
     public List<Certification> buildCertificationFrom(List<CertificationDto> certificationDtos, Profile profile) {
