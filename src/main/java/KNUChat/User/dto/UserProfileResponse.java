@@ -1,17 +1,19 @@
 package KNUChat.User.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserProfileResponse {
 
-    private final UserDto userDto;
-    private final ProfileDto ProfileDto;
-    private final List<DepartmentDto> departmentDtos;
-    private final List<CertificationDto> certificationDtos;
-    private final List<UrlDto> urlDtos;
+    private UserDto userDto;
+    private ProfileDto ProfileDto;
+    private List<DepartmentDto> departmentDtos;
+    private List<CertificationDto> certificationDtos;
+    private List<UrlDto> urlDtos;
 }
