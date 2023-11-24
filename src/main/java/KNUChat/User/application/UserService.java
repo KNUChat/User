@@ -1,6 +1,10 @@
 package KNUChat.User.application;
 
+import KNUChat.User.dto.request.UserProfileRequest;
+import KNUChat.User.dto.request.UserRequest;
+import KNUChat.User.dto.response.UserProfileResponse;
 import KNUChat.User.entity.*;
+import KNUChat.User.exception.NotFoundException;
 import KNUChat.User.repository.*;
 import KNUChat.User.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -26,44 +30,49 @@ public class UserService {
     @Autowired
     private final UrlRepository urlRepository;
 
-    public boolean createUser(UserRequest request) {
-        userRepository.save(User.builder()
+    public Long createUser(UserRequest request) {
+        User user = User.builder()
                 .email(request.getEmail())
-                .build());
+                .build();
 
-        return true;
+        userRepository.save(user);
+
+        return user.getId();
     }
 
     @Transactional
-    public boolean createUserProfile(UserProfileRequest request) {
-        userRepository.save(buildUserFrom(request.getUserDto()));
-        Profile profile = buildProfileFrom(request.getProfileDto());
+    public Long createUserProfile(UserProfileRequest request) {
+        User user = updateUserFrom(request.getUserDto());
+
+        Profile profile = buildProfileFrom(request.getProfileDto(), user);
         profileRepository.save(profile);
         departmentRepository.saveAll(buildDepartmentsFrom(request.getDepartmentDtos(), profile));
-        certificationRepository.saveAll(buildCertificationFrom(request.getCertificationDtos(), profile));
-        urlRepository.saveAll(buildUrlDtoFrom(request.getUrlDtos(), profile));
+        if (request.getCertificationDtos() != null)
+            certificationRepository.saveAll(buildCertificationFrom(request.getCertificationDtos(), profile));
+        if (request.getUrlDtos() != null)
+            urlRepository.saveAll(buildUrlDtoFrom(request.getUrlDtos(), profile));
 
-        return true;
+        return user.getId();
     }
 
-    public User buildUserFrom(UserDto userDto) {
-        User user = User.builder()
-                .name(userDto.getName())
-                .gender(Gender.valueOf(userDto.getGender()))
-                .email(userDto.getEmail())
-                .build();
+    public User updateUserFrom(UserDto userDto) {
+        User user = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new NotFoundException("User"));
+
+        user.update(userDto);
 
         return user;
     }
 
-    public Profile buildProfileFrom(ProfileDto profileDto) {
+    public Profile buildProfileFrom(ProfileDto profileDto, User user) {
         Profile profile = Profile.builder()
                 .stdNum(profileDto.getStdNum())
-                .academicStatus(profileDto.getAcademicStatus())
+                .academicStatus(AcademicStatus.valueOf(profileDto.getAcademicStatus()))
                 .grade(profileDto.getGrade())
                 .admissionDate(profileDto.getAdmissionDate())
                 .graduateDate(profileDto.getGraduateDate())
                 .introduction(profileDto.getIntroduction())
+                .user(user)
                 .build();
 
         return profile;
@@ -145,5 +154,29 @@ public class UserService {
                 .collect(Collectors.toUnmodifiableList());
 
         return urlDtos;
+    }
+
+    public boolean updateUserProfile(UserProfileRequest request) {
+        updateUserFrom(request.getUserDto());
+
+        return true;
+    }
+
+    public Long updateProfile(ProfileDto profileDto, Long userId) {
+        Profile profile = profileRepository.getProfileByUserId(userId);
+
+        return profile.getId();
+    }
+
+    public boolean updateDepartments() {
+        return true;
+    }
+
+    public boolean updateCertifications() {
+        return true;
+    }
+
+    public boolean updateUrls() {
+        return true;
     }
 }

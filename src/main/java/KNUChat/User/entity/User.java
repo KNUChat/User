@@ -1,10 +1,8 @@
 package KNUChat.User.entity;
 
+import KNUChat.User.dto.UserDto;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Entity
@@ -23,7 +21,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "email", nullable = false)
+    @NonNull
+    @Column(name = "email")
     private String email;
 
     @Builder
@@ -31,5 +30,13 @@ public class User {
         this.name = name;
         this.gender = gender;
         this.email = email;
+    }
+
+    public User update(UserDto userDto) {
+        if (userDto.getName() != null) this.name = userDto.getName();
+        if (userDto.getGender() != null) this.gender = Gender.valueOf(userDto.getGender());
+        if (userDto.getEmail() != null) this.email = userDto.getEmail();
+
+        return this;
     }
 }
