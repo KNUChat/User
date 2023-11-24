@@ -1,7 +1,5 @@
 package KNUChat.User.dto;
 
-import KNUChat.User.entity.AcademicStatus;
-
 import KNUChat.User.entity.Profile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 public class ProfileDto {
 
     private final short stdNum;
-    private final AcademicStatus academicStatus;
+    private final String academicStatus;
     private final short grade;
     private final String admissionDate;
     private final String graduateDate;
@@ -20,7 +18,7 @@ public class ProfileDto {
     public static ProfileDto from(Profile profile) {
         return new ProfileDto(
                 profile.getStdNum(),
-                profile.getAcademicStatus(),
+                profile.getAcademicStatus().toString(),
                 profile.getGrade(),
                 profile.getAdmissionDate(),
                 profile.getGraduateDate(),
