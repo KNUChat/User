@@ -6,8 +6,6 @@ import KNUChat.User.entity.Profile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
-
 @Getter
 @RequiredArgsConstructor
 public class ProfileDto {
@@ -15,8 +13,8 @@ public class ProfileDto {
     private final short stdNum;
     private final AcademicStatus academicStatus;
     private final short grade;
-    private final Date admissionDate;
-    private final Date graduateDate;
+    private final String admissionDate;
+    private final String graduateDate;
     private final String introduction;
 
     public static ProfileDto from(Profile profile) {

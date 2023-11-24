@@ -25,19 +25,17 @@ public class Certification {
     private String achievement;
 
     @Column(name = "obtain_date")
-    @Temporal(TemporalType.DATE)
-    private Date obtainDate;
+    private String obtainDate;
 
     @Column(name = "expire_date")
-    @Temporal(TemporalType.DATE)
-    private Date expireDate;
+    private String expireDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
     @Builder
-    public Certification(String name, String achievement, Date obtainDate, Date expireDate, Profile profile) {
+    public Certification(String name, String achievement, String obtainDate, String expireDate, Profile profile) {
         this.name = name;
         this.achievement = achievement;
         this.obtainDate = obtainDate;

@@ -29,12 +29,10 @@ public class Profile {
     private short grade;
 
     @Column(name = "admission_date")
-    @Temporal(TemporalType.DATE)
-    private Date admissionDate;
+    private String admissionDate;
 
     @Column(name = "graduate_date")
-    @Temporal(TemporalType.DATE)
-    private Date graduateDate;
+    private String graduateDate;
 
     @Column(name = "introduction")
     private String introduction;
@@ -44,7 +42,7 @@ public class Profile {
     private User user;
 
     @Builder
-    public Profile(short stdNum, AcademicStatus academicStatus, short grade, Date admissionDate, Date graduateDate, String introduction, User user) {
+    public Profile(short stdNum, AcademicStatus academicStatus, short grade, String admissionDate, String graduateDate, String introduction, User user) {
         this.stdNum = stdNum;
         this.academicStatus = academicStatus;
         this.grade = grade;

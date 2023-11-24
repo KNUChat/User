@@ -4,16 +4,14 @@ import KNUChat.User.entity.Certification;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
-
 @Getter
 @RequiredArgsConstructor
 public class CertificationDto {
 
     private final String name;
     private final String achievement;
-    private final Date obtainDate;
-    private final Date expireDate;
+    private final String obtainDate;
+    private final String expireDate;
 
     public static CertificationDto from(Certification certification) {
         return new CertificationDto(
