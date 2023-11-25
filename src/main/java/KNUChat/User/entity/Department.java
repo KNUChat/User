@@ -1,5 +1,7 @@
 package KNUChat.User.entity;
 
+import KNUChat.User.dto.DepartmentDto;
+import KNUChat.User.dto.ProfileDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,5 +42,15 @@ public class Department {
         this.major = major;
         this.depCategory = depCategory;
         this.profile = profile;
+    }
+
+    public Department update(DepartmentDto departmentDto, Profile profile) {
+        this.college = departmentDto.getCollege();
+        this.department = departmentDto.getDepartment();
+        this.major = departmentDto.getMajor();
+        this.depCategory = DepCategory.valueOf(departmentDto.getDepCategory());
+        this.profile = profile;
+
+        return this;
     }
 }

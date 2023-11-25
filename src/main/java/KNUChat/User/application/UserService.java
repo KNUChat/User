@@ -1,6 +1,7 @@
 package KNUChat.User.application;
 
 import KNUChat.User.dto.request.UserProfileRequest;
+import KNUChat.User.dto.request.UserProfileUpdateRequest;
 import KNUChat.User.dto.request.UserRequest;
 import KNUChat.User.dto.response.UserProfileResponse;
 import KNUChat.User.entity.*;
@@ -53,15 +54,6 @@ public class UserService {
             urlRepository.saveAll(buildUrlDtoFrom(request.getUrlDtos(), profile));
 
         return user.getId();
-    }
-
-    public User updateUserFrom(UserDto userDto) {
-        User user = userRepository.findById(userDto.getId())
-                .orElseThrow(() -> new NotFoundException("User"));
-
-        user.update(userDto);
-
-        return user;
     }
 
     public Profile buildProfileFrom(ProfileDto profileDto, User user) {
@@ -153,27 +145,56 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public boolean updateUserProfile(UserProfileRequest request) {
-        updateUserFrom(request.getUserDto());
+    public boolean updateUserProfile(UserProfileUpdateRequest request) {
+        User user = updateUserFrom(request.getUserDto());
+        Profile profile = updateProfile(request.getProfileDto(), user);
+        updateDepartments(request.getDepartmentDtos(), profile);
+        updateCertifications(request.getCertificationDtos(), profile);
+        updateUrls(request.getUrlDtos(), profile);
 
         return true;
     }
 
-    public Long updateProfile(ProfileDto profileDto, Long userId) {
-        Profile profile = profileRepository.findByUser_Id(userId).orElseThrow(() -> new NotFoundException("Profile"));
+    public User updateUserFrom(UserDto userDto) {
+        User user = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new NotFoundException("User"));
 
-        return profile.getId();
+        user.update(userDto);
+
+        return user;
     }
 
-    public boolean updateDepartments() {
-        return true;
+    public Profile updateProfile(ProfileDto profileDto, User user) {
+        Profile profile = profileRepository.findByUser_Id(user.getId()).orElseThrow(() -> new NotFoundException("Profile"));
+        if (profileDto == null)
+            return profile;
+
+        profile.update(profileDto, user);
+
+        return profile;
     }
 
-    public boolean updateCertifications() {
-        return true;
+    public List<Department> updateDepartments(List<DepartmentDto> departmentDtos, Profile profile) {
+        List<Department> departments = departmentRepository.findAllByProfileId(profile.getId());
+        if (departments.isEmpty())
+            throw new NotFoundException("Department");
+
+        return departments;
     }
 
-    public boolean updateUrls() {
-        return true;
+    public List<Certification> updateCertifications(List<CertificationDto> certificationDtos, Profile profile) {
+        List<Certification> certifications = certificationRepository.findAllByProfileId(profile.getId());
+        if (certifications.isEmpty())
+            throw new NotFoundException("Certification");
+
+        return certifications;
+    }
+
+    public List<Url> updateUrls(List<UrlDto> urlDtos, Profile profile) {
+        List<Url> urls = urlRepository.findAllByProfileId(profile.getId());
+        if (urls.isEmpty())
+            throw new NotFoundException("URL");
+
+        return urls;
     }
 }

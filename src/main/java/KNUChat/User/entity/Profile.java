@@ -1,5 +1,6 @@
 package KNUChat.User.entity;
 
+import KNUChat.User.dto.ProfileDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -50,5 +51,17 @@ public class Profile {
         this.graduateDate = graduateDate;
         this.introduction = introduction;
         this.user = user;
+    }
+
+    public Profile update(ProfileDto profileDto, User user) {
+        if (profileDto.getStdNum() != 0) this.stdNum = profileDto.getStdNum();
+        if (profileDto.getAcademicStatus() != null) this.academicStatus = AcademicStatus.valueOf(profileDto.getAcademicStatus());
+        if (profileDto.getGrade() != 0) this.grade = profileDto.getGrade();
+        if (profileDto.getAdmissionDate() != null) this.admissionDate = profileDto.getAdmissionDate();
+        if (profileDto.getGraduateDate() != null) this.graduateDate = profileDto.getGraduateDate();
+        if (profileDto.getIntroduction() != null) this.introduction = profileDto.getIntroduction();
+        if (user != null) this.user = user;
+
+        return this;
     }
 }

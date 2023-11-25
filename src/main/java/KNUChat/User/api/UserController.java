@@ -2,6 +2,7 @@ package KNUChat.User.api;
 
 import KNUChat.User.application.UserService;
 import KNUChat.User.dto.request.UserProfileRequest;
+import KNUChat.User.dto.request.UserProfileUpdateRequest;
 import KNUChat.User.dto.response.UserProfileResponse;
 import KNUChat.User.dto.request.UserRequest;
 import KNUChat.User.dto.response.UserResponse;
@@ -38,9 +39,8 @@ public class UserController {
     }
 
     @PatchMapping("/users")
-    public ResponseEntity<Void> updateUserProfile(@RequestBody UserProfileRequest request) {
+    public ResponseEntity<Void> updateUserProfile(@RequestBody @Valid UserProfileUpdateRequest request) {
         userService.updateUserProfile(request);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
