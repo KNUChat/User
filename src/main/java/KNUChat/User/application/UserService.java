@@ -114,46 +114,43 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserProfileResponse findUserProfileById(Long userId) {
-        Profile profile = profileRepository.getProfileByUserId(userId);
+    public UserProfileResponse getUserProfileByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User"));
+        Profile profile = profileRepository.findByUser_Id(userId).orElseThrow(() -> new NotFoundException("Profile"));
 
         return new UserProfileResponse(
-                UserDto.from(userRepository.getReferenceById(userId)),
+                UserDto.from(user),
                 ProfileDto.from(profile),
-                getDepartmentDtos(profile.getId()),
-                getCertificationDtos(profile.getId()),
-                getUrlDtos(profile.getId())
+                getAllDepartmentDtoByProfile(profile.getId()),
+                findAllCertificationDtoByProfile(profile.getId()),
+                findAllUrlDtoByProfile(profile.getId())
         );
     }
 
-    public List<DepartmentDto> getDepartmentDtos(Long profileId) {
-        List<DepartmentDto> departmentDtos = departmentRepository
-                .findAllByProfileId(profileId)
-                .stream()
-                .map(DepartmentDto::from)
-                .collect(Collectors.toUnmodifiableList());
+    public List<DepartmentDto> getAllDepartmentDtoByProfile(Long profileId) {
+        List<Department> departments = departmentRepository.findAllByProfileId(profileId);
+        if (departments.isEmpty())
+            throw new NotFoundException("Department");
 
-        return departmentDtos;
+        return departments.stream()
+                .map(DepartmentDto::from)
+                .collect(Collectors.toList());
     }
 
-    public List<CertificationDto> getCertificationDtos(Long profileId) {
-        List<CertificationDto> certificationDtos = certificationRepository
+    public List<CertificationDto> findAllCertificationDtoByProfile(Long profileId) {
+        return certificationRepository
                 .findAllByProfileId(profileId)
                 .stream()
                 .map(CertificationDto::from)
-                .collect(Collectors.toUnmodifiableList());
-
-        return certificationDtos;
+                .collect(Collectors.toList());
     }
 
-    public List<UrlDto> getUrlDtos(Long profileId) {
-        List<UrlDto> urlDtos = urlRepository
+    public List<UrlDto> findAllUrlDtoByProfile(Long profileId) {
+        return urlRepository
                 .findAllByProfileId(profileId)
                 .stream()
                 .map(UrlDto::from)
-                .collect(Collectors.toUnmodifiableList());
-
-        return urlDtos;
+                .collect(Collectors.toList());
     }
 
     public boolean updateUserProfile(UserProfileRequest request) {
@@ -163,7 +160,7 @@ public class UserService {
     }
 
     public Long updateProfile(ProfileDto profileDto, Long userId) {
-        Profile profile = profileRepository.getProfileByUserId(userId);
+        Profile profile = profileRepository.findByUser_Id(userId).orElseThrow(() -> new NotFoundException("Profile"));
 
         return profile.getId();
     }

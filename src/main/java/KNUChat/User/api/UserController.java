@@ -17,12 +17,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<UserProfileResponse> getUserProfile(@PathVariable Long id) {
-        UserProfileResponse response = userService.findUserProfileById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
     @PostMapping("/users/signup")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest request) {
         Long id = userService.createUser(request);
@@ -35,6 +29,12 @@ public class UserController {
         Long id = userService.createUserProfile(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(id));
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserProfileResponse> getUserProfile(@PathVariable Long id) {
+        UserProfileResponse response = userService.getUserProfileByUserId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PatchMapping("/users")
