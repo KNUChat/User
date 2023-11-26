@@ -49,9 +49,9 @@ public class UserService {
         profileRepository.save(profile);
         departmentRepository.saveAll(buildDepartmentsFrom(request.getDepartmentDtos(), profile));
         if (request.getCertificationDtos() != null)
-            certificationRepository.saveAll(buildCertificationFrom(request.getCertificationDtos(), profile));
+            certificationRepository.saveAll(buildCertificationsFrom(request.getCertificationDtos(), profile));
         if (request.getUrlDtos() != null)
-            urlRepository.saveAll(buildUrlDtoFrom(request.getUrlDtos(), profile));
+            urlRepository.saveAll(buildUrlsFrom(request.getUrlDtos(), profile));
 
         return user.getId();
     }
@@ -84,7 +84,7 @@ public class UserService {
         return departments;
     }
 
-    public List<Certification> buildCertificationFrom(List<CertificationDto> certificationDtos, Profile profile) {
+    public List<Certification> buildCertificationsFrom(List<CertificationDto> certificationDtos, Profile profile) {
         return certificationDtos.stream()
                 .map(certificationDto -> Certification.builder()
                         .name(certificationDto.getName())
@@ -96,7 +96,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<Url> buildUrlDtoFrom(List<String> urlDtos, Profile profile) {
+    public List<Url> buildUrlsFrom(List<String> urlDtos, Profile profile) {
         return urlDtos.stream()
                 .map(urlDto -> Url.builder()
                         .link(urlDto)
