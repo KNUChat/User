@@ -96,10 +96,10 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<Url> buildUrlDtoFrom(List<UrlDto> urlDtos, Profile profile) {
+    public List<Url> buildUrlDtoFrom(List<String> urlDtos, Profile profile) {
         return urlDtos.stream()
                 .map(urlDto -> Url.builder()
-                        .link(urlDto.getLink())
+                        .link(urlDto)
                         .profile(profile)
                         .build())
                 .collect(Collectors.toList());
@@ -137,11 +137,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<UrlDto> findAllUrlDtoByProfile(Long profileId) {
+    public List<String> findAllUrlDtoByProfile(Long profileId) {
         return urlRepository
                 .findAllByProfileId(profileId)
                 .stream()
-                .map(UrlDto::from)
+                .map(Url::getLink)
                 .collect(Collectors.toList());
     }
 
@@ -190,7 +190,7 @@ public class UserService {
         return certifications;
     }
 
-    public List<Url> updateUrls(List<UrlDto> urlDtos, Profile profile) {
+    public List<Url> updateUrls(List<String> urlDtos, Profile profile) {
         List<Url> urls = urlRepository.findAllByProfileId(profile.getId());
         if (urls.isEmpty())
             throw new NotFoundException("URL");

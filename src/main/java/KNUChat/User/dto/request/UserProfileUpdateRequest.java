@@ -16,5 +16,5 @@ public class UserProfileUpdateRequest {
     private ProfileDto profileDto;
     private List<DepartmentDto> departmentDtos;
     private List<CertificationDto> certificationDtos;
-    private List<UrlDto> urlDtos;
+    private List<String> urlDtos;
 }

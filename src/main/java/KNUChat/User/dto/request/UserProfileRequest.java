@@ -24,5 +24,5 @@ public class UserProfileRequest {
     @Valid
     private List<CertificationDto> certificationDtos;
     @Valid
-    private List<UrlDto> urlDtos;
+    private List<String> urlDtos;
 }

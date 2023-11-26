@@ -16,5 +16,5 @@ public class UserProfileResponse {
     private KNUChat.User.dto.ProfileDto ProfileDto;
     private List<DepartmentDto> departmentDtos;
     private List<CertificationDto> certificationDtos;
-    private List<UrlDto> urlDtos;
+    private List<String> urlDtos;
 }
