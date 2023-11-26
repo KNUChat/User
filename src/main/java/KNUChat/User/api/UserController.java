@@ -1,11 +1,11 @@
 package KNUChat.User.api;
 
 import KNUChat.User.application.UserService;
-import KNUChat.User.dto.request.UserProfileRequest;
+import KNUChat.User.dto.request.UserProfileCreateRequest;
 import KNUChat.User.dto.request.UserProfileUpdateRequest;
 import KNUChat.User.dto.response.UserProfileResponse;
-import KNUChat.User.dto.request.UserRequest;
-import KNUChat.User.dto.response.UserResponse;
+import KNUChat.User.dto.request.UserCreateRequest;
+import KNUChat.User.dto.response.UserIdResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,17 +19,17 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users/signup")
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest request) {
+    public ResponseEntity<UserIdResponse> createUser(@RequestBody UserCreateRequest request) {
         Long id = userService.createUser(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(id));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserIdResponse(id));
     }
 
     @PostMapping("/users")
-    public ResponseEntity<UserResponse> createUserProfile(@RequestBody @Valid UserProfileRequest request) {
+    public ResponseEntity<UserIdResponse> createUserProfile(@RequestBody @Valid UserProfileCreateRequest request) {
         Long id = userService.createUserProfile(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(id));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserIdResponse(id));
     }
 
     @GetMapping("/users/{id}")

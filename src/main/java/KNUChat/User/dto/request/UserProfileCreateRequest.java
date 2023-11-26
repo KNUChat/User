@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class UserProfileRequest {
+public class UserProfileCreateRequest {
 
     @Valid
     @NotNull(message = "사용자 객체는 반드시 포함되어야 합니다.")

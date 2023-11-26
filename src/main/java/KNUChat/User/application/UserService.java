@@ -1,8 +1,8 @@
 package KNUChat.User.application;
 
-import KNUChat.User.dto.request.UserProfileRequest;
+import KNUChat.User.dto.request.UserProfileCreateRequest;
 import KNUChat.User.dto.request.UserProfileUpdateRequest;
-import KNUChat.User.dto.request.UserRequest;
+import KNUChat.User.dto.request.UserCreateRequest;
 import KNUChat.User.dto.response.UserProfileResponse;
 import KNUChat.User.entity.*;
 import KNUChat.User.exception.NotFoundException;
@@ -31,7 +31,7 @@ public class UserService {
     @Autowired
     private final UrlRepository urlRepository;
 
-    public Long createUser(UserRequest request) {
+    public Long createUser(UserCreateRequest request) {
         User user = User.builder()
                 .email(request.getEmail())
                 .build();
@@ -42,7 +42,7 @@ public class UserService {
     }
 
     @Transactional
-    public Long createUserProfile(UserProfileRequest request) {
+    public Long createUserProfile(UserProfileCreateRequest request) {
         User user = updateUserFrom(request.getUserDto());
 
         Profile profile = buildProfileFrom(request.getProfileDto(), user);
