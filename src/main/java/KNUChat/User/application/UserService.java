@@ -3,13 +3,18 @@ package KNUChat.User.application;
 import KNUChat.User.dto.request.UserProfileCreateRequest;
 import KNUChat.User.dto.request.UserProfileUpdateRequest;
 import KNUChat.User.dto.request.UserCreateRequest;
+import KNUChat.User.dto.response.UserBatchResponse;
 import KNUChat.User.dto.response.UserProfileResponse;
+import KNUChat.User.dto.response.UserSearchDto;
 import KNUChat.User.entity.*;
 import KNUChat.User.exception.NotFoundException;
 import KNUChat.User.repository.*;
 import KNUChat.User.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,6 +108,23 @@ public class UserService {
                         .profile(profile)
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public List<UserSearchDto> getPaging(String major, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+
+        Page<Department> departmentPage = departmentRepository.findByMajor(major, pageable);
+
+        List<UserSearchDto> userSearchDtos = departmentPage.stream()
+                .map(department -> {
+                    Profile profile = department.getProfile();
+                    User user = profile.getUser();
+                    List<Department> departments = departmentRepository.findAllByProfileId(profile.getId());
+                    return UserSearchDto.from(user, profile, departments);
+                })
+                .toList();
+
+        return userSearchDtos;
     }
 
     @Transactional(readOnly = true)

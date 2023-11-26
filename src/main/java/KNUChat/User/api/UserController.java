@@ -3,6 +3,7 @@ package KNUChat.User.api;
 import KNUChat.User.application.UserService;
 import KNUChat.User.dto.request.UserProfileCreateRequest;
 import KNUChat.User.dto.request.UserProfileUpdateRequest;
+import KNUChat.User.dto.response.UserBatchResponse;
 import KNUChat.User.dto.response.UserProfileResponse;
 import KNUChat.User.dto.request.UserCreateRequest;
 import KNUChat.User.dto.response.UserIdResponse;
@@ -35,6 +36,13 @@ public class UserController {
     @GetMapping("/users/{id}")
     public ResponseEntity<UserProfileResponse> getUserProfile(@PathVariable Long id) {
         UserProfileResponse response = userService.getUserProfileByUserId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<UserBatchResponse> searchRecord(@RequestParam("page") int page, @RequestParam("major") String major) {
+        UserBatchResponse response = new UserBatchResponse(userService.getPaging(major, page));
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
