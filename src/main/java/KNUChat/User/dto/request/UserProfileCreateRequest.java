@@ -3,13 +3,14 @@ package KNUChat.User.dto.request;
 import KNUChat.User.dto.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 public class UserProfileCreateRequest {
 
     @Valid
