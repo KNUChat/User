@@ -3,6 +3,7 @@ package KNUChat.User.auth.application;
 import KNUChat.User.auth.entity.RefreshToken;
 import KNUChat.User.auth.dto.TokenDto;
 import KNUChat.User.auth.repository.RefreshTokenRepository;
+import KNUChat.User.global.exception.InvalidRefreshTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -36,5 +37,19 @@ public class SecurityService {
         headers.add("Authorization", tokenDto.getAccessToken());
 
         return headers;
+    }
+
+    public long refreshAccessToken(String oldAccessToken, String oldRefreshToken) {
+        long userId = Long.parseLong(jwtProvider.parseClaims(oldAccessToken).getSubject());
+
+        RefreshToken refreshToken = tokenRepository.findByUserId(userId).orElseThrow(() -> {
+            throw new InvalidRefreshTokenException("해당 사용자에게 refresh token이 없습니다.");
+        });
+        if (!refreshToken.getToken().equals(oldRefreshToken))
+            throw new InvalidRefreshTokenException("refresh token이 변조되었습니다.");
+
+        tokenRepository.delete(refreshToken);
+
+        return userId;
     }
 }
