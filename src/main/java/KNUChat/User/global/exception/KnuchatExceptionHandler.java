@@ -1,5 +1,8 @@
-package KNUChat.User.exception;
+package KNUChat.User.global.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -47,5 +50,31 @@ public class KnuchatExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "데이터가 유효하지 않습니다."));
+    }
+
+    @ExceptionHandler(InvalidEmailException.class)
+    public ResponseEntity<ErrorResponse> InvalidDataExceptionHandler(InvalidEmailException e) {
+        return ResponseEntity
+                .status(e.getHttpStatus())
+                .body(new ErrorResponse(e.getHttpStatus().value(), e.getMessage()));
+    }
+
+    @ExceptionHandler(UnsupportedJwtException.class)
+    public ResponseEntity<ErrorResponse> UnsupportedJwtExceptionHandler(UnsupportedJwtException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage()));
+    }
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ErrorResponse> ExpiredJwtExceptionHandler(ExpiredJwtException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage()));
+    }
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity<ErrorResponse> MalformedJwtExceptionHandler(MalformedJwtException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage()));
     }
 }

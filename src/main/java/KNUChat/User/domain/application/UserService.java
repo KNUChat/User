@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +36,14 @@ public class UserService {
     private final CertificationRepository certificationRepository;
     @Autowired
     private final UrlRepository urlRepository;
+
+    public Long siginIn(String email) {
+        Long userId = findUserByEmail(email);
+        if (userId == null)
+            userId = createUser(new UserCreateRequest(email));
+
+        return userId;
+    }
 
     public Long createUser(UserCreateRequest request) {
         User user = User.builder()
@@ -139,6 +148,14 @@ public class UserService {
                 findAllCertificationDtoByProfile(profile.getId()),
                 findAllUrlDtoByProfile(profile.getId())
         );
+    }
+
+    public Long findUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent())
+            return user.get().getId();
+        else
+            return null;
     }
 
     public List<DepartmentDto> getAllDepartmentDtoByProfile(Long profileId) {
