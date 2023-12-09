@@ -16,14 +16,13 @@ public class RefreshToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    Long userId;
+
     String token;
 
     @Builder
-    public RefreshToken(String token) {
+    public RefreshToken(Long userId, String token) {
+        this.userId = userId;
         this.token = token;
-    }
-
-    public static RefreshToken of(String refreshToken) {
-        return RefreshToken.builder().token(refreshToken).build();
     }
 }

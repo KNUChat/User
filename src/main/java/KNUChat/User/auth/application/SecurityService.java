@@ -18,7 +18,7 @@ public class SecurityService {
 
         TokenDto tokenDto = jwtProvider.generateTokenDto(userId);
 
-        tokenRepository.save(RefreshToken.of(tokenDto.getRefreshToken()));
+        tokenRepository.save(new RefreshToken(userId, tokenDto.getRefreshToken()));
 
         return tokenDto;
     }
