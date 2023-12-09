@@ -16,7 +16,7 @@ public class SecurityService {
 
     public TokenDto getTokenDto(Long userId) {
 
-        TokenDto tokenDto = jwtProvider.generateToken(userId);
+        TokenDto tokenDto = jwtProvider.generateTokenDto(userId);
 
         tokenRepository.save(RefreshToken.of(tokenDto.getRefreshToken()));
 

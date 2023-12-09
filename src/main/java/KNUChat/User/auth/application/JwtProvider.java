@@ -25,30 +25,38 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto generateToken(Long userId) {
+    public TokenDto generateTokenDto(Long userId) {
 
         long now = (new Date()).getTime();
 
-        // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + ACCESS_EXPIRE_TIME);
+        String accessToken = generateAccessToken(now, userId);
+        String refreshToken = generateRefreshToken(now);
+
+        return TokenDto.builder()
+                .grantType(BEARER_TYPE)
+                .accessToken(accessToken)
+                .accessTokenExpiresIn(new Date(now + ACCESS_EXPIRE_TIME).getTime())
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    public String generateAccessToken(long now, Long userId) {
         String accessToken = Jwts.builder()
                 .setSubject(String.valueOf(userId))
-                .setExpiration(accessTokenExpiresIn)
+                .setExpiration(new Date(now + ACCESS_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        // Refresh Token 생성
+        return accessToken;
+    }
+
+    public String generateRefreshToken(long now) {
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + REFRESH_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        return TokenDto.builder()
-                .grantType(BEARER_TYPE)
-                .accessToken(accessToken)
-                .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
-                .refreshToken(refreshToken)
-                .build();
+        return refreshToken;
     }
 
     public boolean validateToken(String token) {
