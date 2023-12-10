@@ -141,7 +141,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserProfileResponse getUserProfileByUserId(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User"));
-        Profile profile = profileRepository.findByUser_Id(userId).orElseThrow(() -> new NotFoundException("Profile"));
+        Profile profile = profileRepository.findByUserId(userId).orElseThrow(() -> new NotFoundException("Profile"));
 
         return new UserProfileResponse(
                 UserDto.from(user),
@@ -206,7 +206,7 @@ public class UserService {
     }
 
     public Profile updateProfile(ProfileDto profileDto, User user) {
-        Profile profile = profileRepository.findByUser_Id(user.getId()).orElseThrow(() -> new NotFoundException("Profile"));
+        Profile profile = profileRepository.findByUserId(user.getId()).orElseThrow(() -> new NotFoundException("Profile"));
         if (profileDto == null)
             return profile;
 
