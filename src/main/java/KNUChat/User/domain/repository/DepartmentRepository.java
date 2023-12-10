@@ -13,4 +13,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
     List<Department> findAllByProfileId(Long profileId);
 
     Page<Department> findByMajor(String majoer, Pageable pageable);
+
+    void deleteAllByProfileId(Long profileId);
 }

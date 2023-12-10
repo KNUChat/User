@@ -10,4 +10,6 @@ import java.util.List;
 public interface CertificationRepository extends JpaRepository<Certification, Long> {
 
     List<Certification> findAllByProfileId(Long profileId);
+
+    void deleteAllByProfileId(Long profileId);
 }

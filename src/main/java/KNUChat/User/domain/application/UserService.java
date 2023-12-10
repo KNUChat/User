@@ -186,7 +186,10 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public boolean updateUserProfile(UserProfileUpdateRequest request) {
+        System.out.println(request.getUrlDtos());
+
         User user = updateUserFrom(request.getUserDto());
         Profile profile = updateProfile(request.getProfileDto(), user);
         updateDepartments(request.getDepartmentDtos(), profile);
@@ -216,25 +219,29 @@ public class UserService {
     }
 
     public List<Department> updateDepartments(List<DepartmentDto> departmentDtos, Profile profile) {
-        List<Department> departments = departmentRepository.findAllByProfileId(profile.getId());
-        if (departments.isEmpty())
-            throw new NotFoundException("Department");
+        departmentRepository.deleteAllByProfileId(profile.getId());
+        List<Department> departments = buildDepartmentsFrom(departmentDtos, profile);
+        departmentRepository.saveAll(departments);
 
         return departments;
     }
 
     public List<Certification> updateCertifications(List<CertificationDto> certificationDtos, Profile profile) {
-        List<Certification> certifications = certificationRepository.findAllByProfileId(profile.getId());
-        if (certifications.isEmpty())
-            throw new NotFoundException("Certification");
+        certificationRepository.deleteAllByProfileId(profile.getId());
+        if (certificationDtos == null)
+            return null;
+        List<Certification> certifications = buildCertificationsFrom(certificationDtos, profile);
+        certificationRepository.saveAll(certifications);
 
         return certifications;
     }
 
     public List<Url> updateUrls(List<String> urlDtos, Profile profile) {
-        List<Url> urls = urlRepository.findAllByProfileId(profile.getId());
-        if (urls.isEmpty())
-            throw new NotFoundException("URL");
+        urlRepository.deleteAllByProfileId(profile.getId());
+        if (urlDtos == null)
+            return null;
+        List<Url> urls = buildUrlsFrom(urlDtos, profile);
+        urlRepository.saveAll(urls);
 
         return urls;
     }

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface UrlRepository extends JpaRepository<Url, Long> {
     List<Url> findAllByProfileId(Long profileId);
+
+    void deleteAllByProfileId(Long profileId);
 }
