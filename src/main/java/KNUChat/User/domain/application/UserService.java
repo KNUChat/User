@@ -188,8 +188,6 @@ public class UserService {
 
     @Transactional
     public boolean updateUserProfile(UserProfileUpdateRequest request) {
-        System.out.println(request.getUrlDtos());
-
         User user = updateUserFrom(request.getUserDto());
         Profile profile = updateProfile(request.getProfileDto(), user);
         updateDepartments(request.getDepartmentDtos(), profile);
