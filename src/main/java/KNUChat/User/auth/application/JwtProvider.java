@@ -17,11 +17,12 @@ import java.util.Date;
 @Component
 public class JwtProvider {
     private final Key key;
-    private static final String BEARER_TYPE = "bearer";
+    private static final String GRANT_TYPE = "bearer";
     private static final long ACCESS_EXPIRE_TIME = 1000 * 60 * 30; //access 30분
     private static final long REFRESH_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; //refresh 7일
 
-    public JwtProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtProvider(@Value("${jwt.secret}"
+    ) String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -34,7 +35,7 @@ public class JwtProvider {
         String refreshToken = generateRefreshToken(now);
 
         return TokenDto.builder()
-                .grantType(BEARER_TYPE)
+                .grantType(GRANT_TYPE)
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(new Date(now + ACCESS_EXPIRE_TIME).getTime())
                 .refreshToken(refreshToken)

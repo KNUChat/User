@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class SecurityService {
     private final RefreshTokenRepository tokenRepository;
     private final JwtProvider jwtProvider;
+    private final String prefix = "Bearer ";
 
     public TokenDto getTokenDto(Long userId) {
 
@@ -34,7 +35,7 @@ public class SecurityService {
                 .httpOnly(true)
                 .build();
         headers.add("Set-cookie", cookie.toString());
-        headers.add("Authorization", tokenDto.getAccessToken());
+        headers.add("Authorization", prefix + tokenDto.getAccessToken());
 
         return headers;
     }
