@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<UserBatchResponse> searchRecord(@RequestParam("page") int page, @RequestParam("major") String major) {
+    public ResponseEntity<UserBatchResponse> searchUser(@RequestParam("page") int page, @RequestParam("major") String major) {
         UserBatchResponse response = new UserBatchResponse(userService.getPaging(major, page));
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
