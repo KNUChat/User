@@ -17,6 +17,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws IOException {
 
-        response.sendError(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, "권한이 없는 사용자입니다."); // 403 Forbidden
     }
 }

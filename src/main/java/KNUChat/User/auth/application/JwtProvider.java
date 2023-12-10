@@ -74,6 +74,21 @@ public class JwtProvider {
         }
     }
 
+    public String parseAccessToken(String authHeader) {
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring("Bearer ".length());
+            return token;
+        } else {
+            throw new InvalidTokenException("AccessToken이 없거나 Bearer type이 아닙니다.");
+        }
+    }
+
+    public long getUserIdFromToken(String accessToken) {
+        String userId = parseClaims(accessToken).getSubject();
+
+        return Long.parseLong(userId);
+    }
+
     protected Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder()
