@@ -2,7 +2,6 @@ package KNUChat.User.auth.application;
 
 import KNUChat.User.auth.dto.TokenDto;
 import KNUChat.User.global.exception.InvalidTokenException;
-import KNUChat.User.global.exception.JwtSecurityException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -65,10 +64,7 @@ public class JwtProvider {
         try{
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (SecurityException e) {
-            throw new JwtSecurityException();
-        }
-        catch (MalformedJwtException | ExpiredJwtException | UnsupportedJwtException |
+        } catch (SecurityException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException |
                  IllegalArgumentException e) {
             throw e;
         }
