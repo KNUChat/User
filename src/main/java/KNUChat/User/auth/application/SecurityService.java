@@ -16,7 +16,7 @@ public class SecurityService {
     private final JwtProvider jwtProvider;
     private final String prefix = "Bearer ";
 
-    public TokenDto getTokenDto(Long userId) {
+    public TokenDto generateTokenDto(Long userId) {
 
         TokenDto tokenDto = jwtProvider.generateTokenDto(userId);
 

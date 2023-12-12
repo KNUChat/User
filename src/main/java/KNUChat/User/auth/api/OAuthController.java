@@ -55,7 +55,7 @@ public class OAuthController {
         validateHeaders(authorization, refreshToken);
 
         long userId = securityService.refreshAccessToken(authorization, refreshToken);
-        TokenDto tokenDto = securityService.getTokenDto(userId);
+        TokenDto tokenDto = securityService.generateTokenDto(userId);
         HttpHeaders headers = securityService.setTokenHeaders(tokenDto);
 
         return ResponseEntity
