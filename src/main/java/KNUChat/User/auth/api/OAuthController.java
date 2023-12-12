@@ -50,11 +50,11 @@ public class OAuthController {
 
     @GetMapping(value = "/refresh")
     public ResponseEntity<Void> refresh(HttpServletRequest request) {
-        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         String refreshToken = request.getHeader("RefreshToken");  // 사용 후 폐기할 예정으로 바로 전송.
-        validateHeaders(authorization, refreshToken);
+        validateHeaders(authHeader, refreshToken);
 
-        long userId = securityService.deleteRefreshToken(authorization, refreshToken);
+        long userId = securityService.deleteRefreshToken(authHeader, refreshToken);
         TokenDto tokenDto = securityService.generateTokenDto(userId);
         HttpHeaders headers = securityService.setTokenHeaders(tokenDto);
 
