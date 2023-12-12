@@ -32,7 +32,7 @@ public class OAuthController {
             throw new InvalidEmailException(email);
 
         Long userId = userService.siginIn(email);
-        TokenDto tokenDto = securityService.getTokenDto(userId);
+        TokenDto tokenDto = securityService.generateTokenDto(userId);
         HttpHeaders headers = securityService.setTokenHeaders(tokenDto);
 
         return ResponseEntity
@@ -54,7 +54,7 @@ public class OAuthController {
         String refreshToken = request.getHeader("RefreshToken");  // 사용 후 폐기할 예정으로 바로 전송.
         validateHeaders(authorization, refreshToken);
 
-        long userId = securityService.refreshAccessToken(authorization, refreshToken);
+        long userId = securityService.deleteRefreshToken(authorization, refreshToken);
         TokenDto tokenDto = securityService.generateTokenDto(userId);
         HttpHeaders headers = securityService.setTokenHeaders(tokenDto);
 

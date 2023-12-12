@@ -9,6 +9,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class SecurityService {
@@ -40,16 +43,23 @@ public class SecurityService {
         return headers;
     }
 
-    public long refreshAccessToken(String oldAccessToken, String oldRefreshToken) {
+    public long deleteRefreshToken(String authHeader, String oldRefreshToken) {
+        jwtProvider.validateToken(oldRefreshToken);
+        String oldAccessToken = jwtProvider.parseAccessToken(authHeader);
         long userId = Long.parseLong(jwtProvider.parseClaims(oldAccessToken).getSubject());
 
-        RefreshToken refreshToken = tokenRepository.findByUserId(userId).orElseThrow(() -> {
-            throw new InvalidTokenException("해당 사용자에게 refresh token이 없습니다.");
-        });
-        if (!refreshToken.getToken().equals(oldRefreshToken))
-            throw new InvalidTokenException("refresh token이 변조되었습니다.");
+        List<RefreshToken> refreshTokens = tokenRepository.findAllByUserId(userId);
+        if (refreshTokens.isEmpty())
+            throw new InvalidTokenException(userId + " 사용자에게 refresh token이 없습니다.");
 
-        tokenRepository.delete(refreshToken);
+        Optional<RefreshToken> matchingToken = refreshTokens.stream()
+                .filter(token -> oldRefreshToken.equals(token.getToken()))
+                .findFirst();
+        if (matchingToken.isPresent()) {
+            RefreshToken oldToken = matchingToken.get();
+            tokenRepository.delete(oldToken);
+        } else
+            throw new InvalidTokenException(userId + " 사용자에게 일치하는 토큰이 아닙니다.");
 
         return userId;
     }
