@@ -4,6 +4,7 @@ import KNUChat.User.domain.dto.CertificationDto;
 import KNUChat.User.domain.dto.DepartmentDto;
 import KNUChat.User.domain.dto.ProfileDto;
 import KNUChat.User.domain.dto.UserDto;
+import KNUChat.User.domain.dto.response.UserBatchResponse;
 import KNUChat.User.domain.entity.*;
 import KNUChat.User.domain.repository.*;
 import KNUChat.User.domain.dto.request.UserProfileCreateRequest;
@@ -121,10 +122,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<UserSearchDto> getPaging(String major, int page) {
+    public UserBatchResponse getUserBatch(String major, int page) {
         Pageable pageable = PageRequest.of(page, 10);
 
         Page<Department> departmentPage = departmentRepository.findByMajor(major, pageable);
+        int totalPages = departmentPage.getTotalPages();
 
         List<UserSearchDto> userSearchDtos = departmentPage.stream()
                 .map(department -> {
@@ -135,7 +137,7 @@ public class UserService {
                 })
                 .toList();
 
-        return userSearchDtos;
+        return UserBatchResponse.of(userSearchDtos, totalPages);
     }
 
     @Transactional(readOnly = true)
