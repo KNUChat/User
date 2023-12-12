@@ -1,5 +1,7 @@
-package KNUChat.User.global.exception;
+package KNUChat.User.global.exception.domain;
 
+import KNUChat.User.global.exception.ErrorResponse;
+import KNUChat.User.global.exception.auth.InvalidEmailException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;

@@ -3,7 +3,7 @@ package KNUChat.User.auth.application;
 import KNUChat.User.auth.entity.RefreshToken;
 import KNUChat.User.auth.dto.TokenDto;
 import KNUChat.User.auth.repository.RefreshTokenRepository;
-import KNUChat.User.global.exception.InvalidTokenException;
+import KNUChat.User.global.exception.auth.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;

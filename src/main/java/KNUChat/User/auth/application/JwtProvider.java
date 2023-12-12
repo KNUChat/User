@@ -1,7 +1,7 @@
 package KNUChat.User.auth.application;
 
 import KNUChat.User.auth.dto.TokenDto;
-import KNUChat.User.global.exception.InvalidTokenException;
+import KNUChat.User.global.exception.auth.InvalidTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

@@ -4,7 +4,7 @@ import KNUChat.User.domain.application.UserService;
 import KNUChat.User.auth.application.OAuthService;
 import KNUChat.User.auth.application.SecurityService;
 import KNUChat.User.auth.dto.TokenDto;
-import KNUChat.User.global.exception.InvalidEmailException;
+import KNUChat.User.global.exception.auth.InvalidEmailException;
 import KNUChat.User.global.exception.KnuchatException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

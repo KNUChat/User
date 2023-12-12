@@ -11,7 +11,7 @@ import KNUChat.User.domain.dto.request.UserProfileUpdateRequest;
 import KNUChat.User.domain.dto.request.UserCreateRequest;
 import KNUChat.User.domain.dto.response.UserProfileResponse;
 import KNUChat.User.domain.dto.response.UserSearchDto;
-import KNUChat.User.global.exception.NotFoundException;
+import KNUChat.User.global.exception.domain.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

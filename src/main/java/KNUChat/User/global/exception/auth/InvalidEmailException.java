@@ -1,5 +1,6 @@
-package KNUChat.User.global.exception;
+package KNUChat.User.global.exception.auth;
 
+import KNUChat.User.global.exception.KnuchatException;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
