@@ -33,8 +33,8 @@ public class SecurityService {
         ResponseCookie cookie = ResponseCookie.from("RefreshToken", tokenDto.getRefreshToken())
                 .path("/")
                 .maxAge(60*60*24*7)  // 쿠키 유효기간: 7일
-                .secure(true)
-                .sameSite("None")
+                .secure(false)
+                .sameSite("Lax")
                 .httpOnly(true)
                 .build();
         headers.add("Set-cookie", cookie.toString());
