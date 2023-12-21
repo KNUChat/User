@@ -51,4 +51,11 @@ public class UserController {
         userService.updateUserProfile(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUserProfile(id);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
