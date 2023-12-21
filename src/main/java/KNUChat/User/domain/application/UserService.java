@@ -245,4 +245,18 @@ public class UserService {
 
         return urls;
     }
+
+    @Transactional
+    public void deleteUserProfile(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User"));
+        Optional<Profile> optionalProfile = profileRepository.findByUserId(id);
+        if (optionalProfile.isPresent()) {
+            Profile profile = optionalProfile.get();
+            departmentRepository.deleteAllByProfileId(profile.getId());
+            certificationRepository.deleteAllByProfileId(profile.getId());
+            urlRepository.deleteAllByProfileId(profile.getId());
+            profileRepository.delete(profile);
+        }
+        userRepository.delete(user);
+    }
 }
