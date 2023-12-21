@@ -50,9 +50,9 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));    // 모든 요청 허용
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));      // 모든 HTTP 메서드 허용
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));      // 모든 HTTP 메서드 허용
         configuration.setAllowedHeaders(Arrays.asList("*"));    // 모든 헤더 허용
-        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Set-cookie"));
         configuration.setAllowCredentials(true);    // 쿠키와 같은 자격 증명을 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
