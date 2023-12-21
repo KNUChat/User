@@ -7,6 +7,7 @@ import KNUChat.User.domain.dto.response.UserBatchResponse;
 import KNUChat.User.domain.dto.response.UserProfileResponse;
 import KNUChat.User.domain.dto.request.UserCreateRequest;
 import KNUChat.User.domain.dto.response.UserIdResponse;
+import KNUChat.User.kafka.application.Logger;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ public class UserController {
 
     private final UserService userService;
 
+    private final Logger logger;
+
     @PostMapping("/users/signup")
     public ResponseEntity<UserIdResponse> createUser(@RequestBody UserCreateRequest request) {
         Long id = userService.createUser(request);
@@ -29,6 +32,7 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<UserIdResponse> createUserProfile(@RequestBody @Valid UserProfileCreateRequest request) {
         Long id = userService.createUserProfile(request);
+        logger.infoLog("User create user-profile", id);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserIdResponse(id));
     }
@@ -48,13 +52,16 @@ public class UserController {
 
     @PatchMapping("/users")
     public ResponseEntity<Void> updateUserProfile(@RequestBody @Valid UserProfileUpdateRequest request) {
-        userService.updateUserProfile(request);
+        Long id = userService.updateUserProfile(request);
+        logger.infoLog("User create user-profile", id);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUserProfile(id);
+        Long userId = userService.deleteUserProfile(id);
+        logger.infoLog("User create user-profile", userId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

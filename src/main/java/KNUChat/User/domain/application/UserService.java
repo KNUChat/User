@@ -13,6 +13,7 @@ import KNUChat.User.domain.dto.request.UserCreateRequest;
 import KNUChat.User.domain.dto.response.UserProfileResponse;
 import KNUChat.User.domain.dto.response.UserSearchDto;
 import KNUChat.User.global.exception.domain.NotFoundException;
+import KNUChat.User.kafka.application.Logger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,10 +41,14 @@ public class UserService {
     @Autowired
     private final UrlRepository urlRepository;
 
+    private final Logger logger;
+
     public Long siginIn(String email) {
         Long userId = findUserByEmail(email);
-        if (userId == null)
+        if (userId == null) {
             userId = createUser(new UserCreateRequest(email));
+            logger.infoLog("User signup", userId);
+        }
 
         return userId;
     }
@@ -189,14 +194,14 @@ public class UserService {
     }
 
     @Transactional
-    public boolean updateUserProfile(UserProfileUpdateRequest request) {
+    public Long updateUserProfile(UserProfileUpdateRequest request) {
         User user = updateUserFrom(request.getUserDto());
         Profile profile = updateProfile(request.getProfileDto(), user);
         updateDepartments(request.getDepartmentDtos(), profile);
         updateCertifications(request.getCertificationDtos(), profile);
         updateUrls(request.getUrlDtos(), profile);
 
-        return true;
+        return user.getId();
     }
 
     public User updateUserFrom(UserDto userDto) {
@@ -247,8 +252,9 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUserProfile(Long id) {
+    public Long deleteUserProfile(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User"));
+        Long userId = user.getId();
         Optional<Profile> optionalProfile = profileRepository.findByUserId(id);
         if (optionalProfile.isPresent()) {
             Profile profile = optionalProfile.get();
@@ -258,5 +264,7 @@ public class UserService {
             profileRepository.delete(profile);
         }
         userRepository.delete(user);
+
+        return userId;
     }
 }

@@ -6,6 +6,7 @@ import KNUChat.User.auth.application.SecurityService;
 import KNUChat.User.auth.dto.TokenDto;
 import KNUChat.User.global.exception.auth.InvalidEmailException;
 import KNUChat.User.global.exception.KnuchatException;
+import KNUChat.User.kafka.application.Logger;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,7 @@ public class OAuthController {
     private final OAuthService oAuthService;
     private final SecurityService securityService;
     private final UserService userService;
+    private final Logger logger;
 
     @GetMapping(value = "/oauth2")
     public ResponseEntity<Void> socialLoginType(@RequestParam("code") String code) {
@@ -34,6 +36,7 @@ public class OAuthController {
         Long userId = userService.siginIn(email);
         TokenDto tokenDto = securityService.generateTokenDto(userId);
         HttpHeaders headers = securityService.setTokenHeaders(tokenDto);
+        logger.infoLog("User signin", userId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
