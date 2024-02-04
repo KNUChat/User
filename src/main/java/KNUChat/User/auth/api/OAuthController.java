@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
 @RestController
 @RequiredArgsConstructor
 public class OAuthController {
-
     private final OAuthService oAuthService;
     private final SecurityService securityService;
     private final UserService userService;
@@ -33,7 +32,7 @@ public class OAuthController {
         if (!validateEmail(email))
             throw new InvalidEmailException(email);
 
-        Long userId = userService.siginIn(email);
+        Long userId = userService.signIn(email);
         TokenDto tokenDto = securityService.generateTokenDto(userId);
         HttpHeaders headers = securityService.setTokenHeaders(tokenDto);
         logger.infoLog("User signin", userId);

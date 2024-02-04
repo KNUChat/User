@@ -43,7 +43,7 @@ public class UserService {
 
     private final Logger logger;
 
-    public Long siginIn(String email) {
+    public Long signIn(String email) {
         Long userId = findUserByEmail(email);
         if (userId == null) {
             userId = createUser(new UserCreateRequest(email));
