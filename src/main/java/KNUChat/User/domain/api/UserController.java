@@ -8,6 +8,7 @@ import KNUChat.User.domain.dto.response.UserProfileResponse;
 import KNUChat.User.domain.dto.request.UserCreateRequest;
 import KNUChat.User.domain.dto.response.UserIdResponse;
 import KNUChat.User.kafka.application.Logger;
+import KNUChat.User.kafka.dto.LogType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<UserIdResponse> createUserProfile(@RequestBody @Valid UserProfileCreateRequest request) {
         Long id = userService.createUserProfile(request);
-        logger.infoLog("User create user-profile", id);
+        logger.sendMessage(LogType.INFO, "User creates user-profile", id);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserIdResponse(id));
     }
@@ -53,7 +54,7 @@ public class UserController {
     @PatchMapping("/users")
     public ResponseEntity<Void> updateUserProfile(@RequestBody @Valid UserProfileUpdateRequest request) {
         Long id = userService.updateUserProfile(request);
-        logger.infoLog("User create user-profile", id);
+        logger.sendMessage(LogType.INFO, "User updates user-profile", id);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -61,7 +62,7 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         Long userId = userService.deleteUserProfile(id);
-        logger.infoLog("User create user-profile", userId);
+        logger.sendMessage(LogType.INFO, "User deletes user-profile", userId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

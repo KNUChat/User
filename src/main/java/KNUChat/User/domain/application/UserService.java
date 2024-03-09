@@ -14,6 +14,7 @@ import KNUChat.User.domain.dto.response.UserProfileResponse;
 import KNUChat.User.domain.dto.response.UserSearchDto;
 import KNUChat.User.global.exception.domain.NotFoundException;
 import KNUChat.User.kafka.application.Logger;
+import KNUChat.User.kafka.dto.LogType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,7 +48,7 @@ public class UserService {
         Long userId = findUserByEmail(email);
         if (userId == null) {
             userId = createUser(new UserCreateRequest(email));
-            logger.infoLog("User signup", userId);
+            logger.sendMessage(LogType.INFO, "User signup", userId);
         }
 
         return userId;

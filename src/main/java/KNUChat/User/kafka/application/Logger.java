@@ -3,15 +3,27 @@ package KNUChat.User.kafka.application;
 import KNUChat.User.kafka.dto.LogType;
 import KNUChat.User.kafka.dto.Message;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class Logger {
+    private final KafkaTemplate<String, Message> kafkaTemplate;
 
-    private final KafkaProducer kafkaProducer;
+    public void sendMessage(LogType logType, String logMessage, Long userId) {
+        Message message;
+        if (logType.equals(LogType.INFO))
+            message = buildInfoLog(logMessage, userId);
+        else if (logType.equals(LogType.ERROR))
+            message = buildErrorLog(logMessage, userId);
+        else
+            message = buildErrorLog(logType + ": 로그 타입 불일치로 인해 Message 빌드 실패" , userId);
 
-    public void infoLog(String logMessage, Long userId) {
+        kafkaTemplate.send("log", message);
+    }
+
+    public Message buildInfoLog(String logMessage, Long userId) {
         Message message = Message.builder()
                 .logMessage(logMessage)
                 .service("User")
@@ -19,10 +31,10 @@ public class Logger {
                 .userId(userId)
                 .build();
 
-        kafkaProducer.sendMessage(message);
+        return message;
     }
 
-    public void errorLog(String logMessage, Long userId) {
+    public Message buildErrorLog(String logMessage, Long userId) {
         Message message = Message.builder()
                 .logMessage(logMessage)
                 .service("User")
@@ -30,6 +42,6 @@ public class Logger {
                 .userId(userId)
                 .build();
 
-        kafkaProducer.sendMessage(message);
+        return message;
     }
 }

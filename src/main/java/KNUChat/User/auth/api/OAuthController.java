@@ -7,6 +7,7 @@ import KNUChat.User.auth.dto.TokenDto;
 import KNUChat.User.global.exception.auth.InvalidEmailException;
 import KNUChat.User.global.exception.KnuchatException;
 import KNUChat.User.kafka.application.Logger;
+import KNUChat.User.kafka.dto.LogType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +36,7 @@ public class OAuthController {
         Long userId = userService.signIn(email);
         TokenDto tokenDto = securityService.generateTokenDto(userId);
         HttpHeaders headers = securityService.setTokenHeaders(tokenDto);
-        logger.infoLog("User signin", userId);
+        logger.sendMessage(LogType.INFO, "User sign-in", userId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
