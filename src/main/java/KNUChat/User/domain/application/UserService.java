@@ -16,7 +16,6 @@ import KNUChat.User.global.exception.domain.NotFoundException;
 import KNUChat.User.kafka.application.Logger;
 import KNUChat.User.kafka.dto.LogType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,15 +30,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
     private final UserRepository userRepository;
-    @Autowired
     private final ProfileRepository profileRepository;
-    @Autowired
     private final DepartmentRepository departmentRepository;
-    @Autowired
     private final CertificationRepository certificationRepository;
-    @Autowired
     private final UrlRepository urlRepository;
 
     private final Logger logger;

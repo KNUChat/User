@@ -20,8 +20,7 @@ public class JwtProvider {
     private static final long ACCESS_EXPIRE_TIME = 1000 * 60 * 30 * 2; //access 30분 -> 임시 1시간
     private static final long REFRESH_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; //refresh 7일
 
-    public JwtProvider(@Value("${jwt.secret}"
-    ) String secretKey) {
+    public JwtProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -93,7 +92,7 @@ public class JwtProvider {
                     .parseClaimsJws(accessToken)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            return e.getClaims();
+            throw e;
         }
     }
 }
